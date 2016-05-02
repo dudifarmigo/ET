@@ -1,10 +1,7 @@
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Date;
 
 /**
@@ -21,6 +18,25 @@ public class Utils {
         boolean isDownloaded = false;
 
         Process process = null;
+        if(isLinuxOS()){
+            ProcessBuilder pb = new ProcessBuilder(ET_Const.GSUTIL_FOLDER_PATH,
+                    "cp",
+                    "-r",
+                    gsFolder,
+                    localFolderPath
+            );
+            pb.redirectErrorStream(true);
+            process = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null)
+                System.out.println(line);
+
+            process.waitFor();
+            File folder = new File(localNewFolderPath);
+            return folder.exists() && folder.listFiles().length > 0;
+
+        }
         process = Runtime.getRuntime().exec("cmd /c start gsutil cp -r " + gsFolder + " " + localFolderPath);
 
         try {

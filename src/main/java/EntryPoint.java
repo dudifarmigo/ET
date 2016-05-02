@@ -7,7 +7,7 @@ import java.io.File;
 public class EntryPoint {
 
     public static void main(String[] args) throws Exception {
-        String date = "2016-04-13";
+        String date = "2016-04-10";
         String outputFileName = "All_" + date;
         String localDownloadPath = new File(System.getProperty("user.dir"), "ET_Download").getCanonicalPath();;
         String localFolderPath = new File(localDownloadPath, date).getCanonicalPath();
