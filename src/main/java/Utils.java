@@ -127,8 +127,12 @@ public class Utils {
                         }
 
 
-                    }).toList();
-            Utils.sortListString(files);
+                    }).toSortedList(new Comparator<String>() {
+                        @Override
+                        public int compare(String o1, String o2) {
+                            return o1.compareTo(o2);
+                        }
+                    });
             Utils.mergeFiles(files,
                     new File(folderPath, outputFileName + ".csv").getCanonicalPath());
             return new File(folderPath, outputFileName + ".csv").exists();
