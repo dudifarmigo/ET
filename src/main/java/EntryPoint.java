@@ -1,5 +1,6 @@
 import javax.rmi.CORBA.Util;
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by Dudi on 5/1/2016.
@@ -7,7 +8,7 @@ import java.io.File;
 public class EntryPoint {
 
     public static void main(String[] args) throws Exception {
-        String date = "2016-04-10";
+        String date = "2016-04-08";
         String outputFileName = "All_" + date;
         String localDownloadPath = new File(System.getProperty("user.dir"), "ET_Download").getCanonicalPath();;
         String localFolderPath = new File(localDownloadPath, date).getCanonicalPath();

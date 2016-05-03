@@ -118,8 +118,12 @@ public class Utils {
     public static boolean mergeCSVFiles(final String folderPath, String outputFileName, int mergeTime) throws Exception {
         boolean isMerged = false;
         if(isLinuxOS()){
-            Process process = Runtime.getRuntime().exec("cat *.csv >" + outputFileName + ".csv", null, new File(folderPath));
-            process.waitFor();
+            List<String> files = getAllFilesInFolder(folderPath);
+
+            Utils.sortListString(files);
+            Utils.mergeFiles(files,
+                    new File(folderPath, outputFileName + ".csv").getCanonicalPath());
+            return new File(folderPath, outputFileName + ".csv").exists();
         }
         else {
             Process process = Runtime.getRuntime().exec("cmd /c start copy *.csv " + outputFileName + ".csv", null, new File(folderPath));
@@ -250,7 +254,7 @@ public class Utils {
         }
     }
 
-    public void sortListString(List<String> list){
+    public static void sortListString(List<String> list){
         Collections.sort(list, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
