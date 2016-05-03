@@ -1,3 +1,4 @@
+import com.google.common.collect.FluentIterable;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
@@ -118,8 +119,15 @@ public class Utils {
     public static boolean mergeCSVFiles(final String folderPath, String outputFileName, int mergeTime) throws Exception {
         boolean isMerged = false;
         if(isLinuxOS()){
-            List<String> files = getAllFilesInFolder(folderPath);
+            List<String> files = FluentIterable.from(getAllFilesInFolder(folderPath))
+                    .filter(new com.google.common.base.Predicate<String>() {
+                        @Override
+                        public boolean apply(String fileName) {
+                            return fileName.contains("production");
+                        }
 
+
+                    }).toList();
             Utils.sortListString(files);
             Utils.mergeFiles(files,
                     new File(folderPath, outputFileName + ".csv").getCanonicalPath());
