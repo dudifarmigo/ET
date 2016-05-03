@@ -2,7 +2,9 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Dudi on 5/1/2016.
@@ -180,4 +182,74 @@ public class Utils {
         boolean check() throws Exception;
         String getErrorMessage();
     }
+
+    public static void mergeFiles(List<String> filesPath, String outPutFilePath) throws Exception {
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean isFirst = true;
+        for(String f:filesPath){
+            if(!isFirst){
+                stringBuilder.append("\n");
+            }
+            else {
+                isFirst = false;
+            }
+            stringBuilder.append(readFile(f));
+        }
+        writeTextToFile(outPutFilePath, stringBuilder.toString());
+    }
+
+    public static List<String> getAllFilesInFolder(String folderPath){
+        List<String> filesPath = new ArrayList<>();
+        File folder = new File(folderPath);
+        if(folder.exists()){
+            for(File f:folder.listFiles()){
+                filesPath.add(f.getAbsolutePath());
+            }
+        }
+        return filesPath;
+    }
+
+    public static String  readFile(String fileName) throws Exception {
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(fileName));
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append("\n");
+                line = br.readLine();
+            }
+            return sb.toString();
+        }catch(Exception e){
+            throw e;
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void writeTextToFile(String path, String text) throws Exception {
+        Writer writer = null;
+        try {
+            File f = new File(path);
+            if(!f.isFile())
+                f.createNewFile();
+
+            writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(path, true), "UTF-8"));
+            writer.append(text +"\n");
+
+        } catch (Exception e) {
+            throw e;
+        }
+        finally {
+            writer.close();
+        }
+    }
+
 }
