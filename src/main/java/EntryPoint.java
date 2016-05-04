@@ -11,6 +11,9 @@ public class EntryPoint {
     public static void main(String[] args) {
 
         try {
+            if(true)
+                throw new Exception("test");
+
             String date = Utils.getDateString(new Date(), "America/Los_Angeles");
             String outputFileName = "All_" + date;
             String localDownloadPath = new File(System.getProperty("user.dir"), "ET_Download").getCanonicalPath();
