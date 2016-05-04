@@ -354,4 +354,28 @@ public class Utils {
             transport.close();
         }
     }
+
+    public static void deleteAllFilesInFolder(String folderPath){
+        File folder = new File(folderPath);
+        System.out.println("Delete all files/folders in:" + folder.getAbsolutePath());
+        String[] files = folder.list();
+        for (String fileStr : files) {
+            File file= new File(folder,fileStr);
+            deleteDir(file);
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+
+        return dir.delete(); // The directory is empty now and can be deleted.
+    }
 }

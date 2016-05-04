@@ -1,5 +1,6 @@
 import javax.rmi.CORBA.Util;
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -9,14 +10,11 @@ import java.util.List;
 public class EntryPoint {
 
     public static void main(String[] args) {
-
+        String etDownload = "ET_Download";
         try {
-            if(true)
-                throw new Exception("test");
-
             String date = Utils.getDateString(new Date(), "America/Los_Angeles");
             String outputFileName = "All_" + date;
-            String localDownloadPath = new File(System.getProperty("user.dir"), "ET_Download").getCanonicalPath();
+            String localDownloadPath = new File(System.getProperty("user.dir"), etDownload).getCanonicalPath();
             ;
             String localFolderPath = new File(localDownloadPath, date).getCanonicalPath();
 
@@ -47,7 +45,12 @@ public class EntryPoint {
                 e1.printStackTrace();
             }
         }
+        finally {
+            try {
+                Utils.deleteAllFilesInFolder(new File(System.getProperty("user.dir"), etDownload).getCanonicalPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
-
-
 }
