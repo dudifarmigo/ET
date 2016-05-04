@@ -289,11 +289,12 @@ public class Utils {
     }
 
     public static void sendMail(String subject,String body,String to) throws Exception{
+        String pass = "pass";
         Properties props = System.getProperties();
         props.put("mail.smtp.starttls.enable", "true"); // This line for port 587
         props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.user", "test@farmigo.com");
-        props.put("mail.smtp.password", "Farmigo2");
+        props.put("mail.smtp.user", "info@farmigo.com");
+        props.put("mail.smtp.password", pass);
         props.put("mail.smtp.port", "587"); //change to 587 or 465
         props.put("mail.smtp.auth", "true"); //next two props should be commented for port 587 uncomment for 465
 
@@ -308,7 +309,7 @@ public class Utils {
         Transport transport = null;
         // Create the email addresses involved
         try {
-            InternetAddress from = new InternetAddress("test@farmigo.com");
+            InternetAddress from = new InternetAddress("info@farmigo.com");
             message.setSubject(subject);
             message.setFrom(from);
             message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
@@ -337,7 +338,7 @@ public class Utils {
 
             // Send message
             transport = session.getTransport("smtp");
-            transport.connect("smtp.gmail.com", "test@farmigo.com", "Farmigo2");
+            transport.connect("smtp.gmail.com", "info@farmigo.com", pass);
             System.out.println("Transport: "+transport.toString());
             transport.sendMessage(message, message.getAllRecipients());
 
